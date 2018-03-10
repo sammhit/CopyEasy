@@ -1,18 +1,4 @@
-
-document.addEventListener('mouseup', function(){
-    var thetext = getSelectionText();
-    if (thetext.length > 0){ // check there's some text selected
-        document.execCommand("copy");// logs whatever textual content the user has selected on the page
-        
-}
-}, false);
-
-function pasteIt(tabId)
-      document.execCommand("paste");	
-	
-}
-
-
+'use strict'
 function getSelectionText(){
  var text = "";
     if (window.getSelection) {
@@ -23,9 +9,31 @@ function getSelectionText(){
  return text;
 }
 
-chrome.extension.onMessage.addListener(
-    function(request, sender, sendResponse) {
-        chrome.tabs.executeScript(request.tabID,{code:"alert:("wow");"});
-    }
-);
+function copyText(){
+	chrome.storage.sync.get('isOn',function(data){
+	var isOn =data.isOn;
+	if(isOn){
+	console.log('copy text func activated');
+	var thetext = getSelectionText();
+    	if (thetext.length > 0){ // check there's some text selected
+    	    	document.execCommand("copy");// logs whatever textual content the user has selected on the page        
+    	}
+	}	
+	});	
+}
+
+document.addEventListener('pointerup',copyText);
+
+	 
+
+
+
+
+
+
+
+
+
+
+
 
